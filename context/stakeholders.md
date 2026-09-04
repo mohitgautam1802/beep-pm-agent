@@ -9,8 +9,8 @@ hard-coding addresses, so changing a reviewer is a one-line edit here.
 
 | Role | Name | Email | Approves | Notified about |
 | --- | --- | --- | --- | --- |
-| Head of Product | Head of Product | mohitkrishan025@gmail.com | Specs (Gate 2), prototypes (Gate 3) | Everything |
-| Associate PM (agent operator) | Mohit Gautam | mohit01krishan@gmail.com | Scoping (Gate 1) | Everything |
+| Head of Product | Head of Product | mohitkrishan025@gmail.com | Published specs (Gate 3), prototypes (Gate 4) | Everything |
+| Associate PM (agent operator) | Mohit Gautam | mohit01krishan@gmail.com | Solution choice (Gate 1), spec drafts (Gate 2) | Everything |
 
 > **Demo note.** Both addresses belong to the project author. In a real
 > deployment this table would list design, engineering and QA reviewers
@@ -22,9 +22,14 @@ hard-coding addresses, so changing a reviewer is a one-line edit here.
 
 | Gate | Artifact | Who must respond | Accepted responses |
 | --- | --- | --- | --- |
-| 1 | Scoping doc | Associate PM (in session) | confirm / pick a different option / re-scope |
-| 2 | Spec v1 | Head of Product | approve / request changes / reject |
-| 3 | Prototype | Head of Product | approve / request changes / reject |
+| 1 | Solution decision | Associate PM (in session) | pick a solution / keep discussing |
+| 2 | Spec draft | Associate PM (in session) | approve / changes / wrong solution |
+| 3 | Spec, once published | Head of Product | approve / request changes / reject |
+| 4 | Prototype | Head of Product | approve / request changes / reject |
+
+**Gates 1 and 2 are internal** — the PM answers them in session, and nothing
+leaves the building. Gates 3 and 4 are external: a real ticket exists and a real
+person has been emailed.
 
 **One approver is enough at each gate for this project.** With more reviewers,
 the rule would be: all *required* approvers must approve; *optional* reviewers

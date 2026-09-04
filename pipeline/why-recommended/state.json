@@ -7,7 +7,7 @@
   "jiraKey": "KAN-15",
   "artifactUrl": null,
   "gate": {
-    "id": 2,
+    "id": 3,
     "waitingOn": "head-of-product",
     "since": null,
     "expects": "APPROVE | CHANGES (with notes) | REJECT (with reason), by email reply"
@@ -48,6 +48,11 @@
       "at": "2026-09-04T11:20:00Z",
       "event": "SPEC_WRITTEN",
       "note": "Spec v1 written and pushed to Jira as KAN-15 (182 content blocks, structure verified)."
+    },
+    {
+      "at": "2026-09-04T12:10:00Z",
+      "event": "PROCESS_CHANGED",
+      "note": "A PM review gate was added between drafting the spec and publishing it. KAN-15 was created under the previous flow, so no Gate 2 approval exists for it - deliberately not backfilled, since a fabricated approval would make every other entry in this log untrustworthy. Gate numbering shifted: Head of Product spec approval is now Gate 3, prototype feedback Gate 4."
     }
   ]
 }

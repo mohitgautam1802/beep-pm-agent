@@ -120,10 +120,14 @@ updated when a payload was written to disk.
 Update `state.json`: `specVersion`, `history`, and clear the gate that this
 sync resolved.
 
-If the spec changed materially — scope, flows or non-goals — send it back for
-re-approval. Cosmetic or clarifying edits do not need a new gate; **when in
-doubt, re-share**. An unnecessary email costs a reviewer ten seconds. A silent
-scope change costs a sprint.
+If the spec changed materially — scope, flows or non-goals — send it back to the
+Head of Product for re-approval (Gate 3). Cosmetic or clarifying edits do not
+need a new gate; **when in doubt, re-share**. An unnecessary email costs a
+reviewer ten seconds. A silent scope change costs a sprint.
+
+Show the PM the new version before it goes out, the same way `/write-spec` does
+at Gate 2. The rule holds throughout: **the PM sees it before the stakeholder
+does.**
 
 Then tell the operator what changed, what's still open, and whether another
 prototype iteration is needed.

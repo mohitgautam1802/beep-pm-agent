@@ -71,19 +71,27 @@ tool nobody uses.
     ⛔ GATE 1 — the PM chooses what to build
 
 > /write-spec
-    → PRD written, Jira issue created, review email sent
-    ⛔ GATE 2 — Head of Product approves
+    → PRD drafted. Nothing filed, nothing sent.
+    ⛔ GATE 2 — the PM reads the draft
+    → then, and only then: Jira issue created + approval email sent
+    ⛔ GATE 3 — Head of Product approves
 
 > /build-prototype
     → prototype published at a real URL, auto-shared with a feedback form
-    ⛔ GATE 3 — reviewers respond
+    ⛔ GATE 4 — reviewers respond
 
 > /sync-prd
     → spec v2 + changelog + diff, pushed back to Jira
 ```
 
-Stage 1 is a **conversation**, not a report — expect several rounds. Stages 2–4
+Stage 1 is a **conversation**, not a report — expect several rounds. The rest
 are transactional: one invocation, one artifact, one gate.
+
+**Nothing leaves the building before Gate 2.** Draft → review → file → send, so
+a wording fix costs a re-read rather than an edit to a live ticket plus a second
+email to a stakeholder who already read the first one. Spec version numbers only
+start advancing after publication; every round of PM review before Gate 2 is
+still v1.
 
 `/write-spec` also accepts a solution you hand it directly, with no brainstorm,
 for when the decision was already made elsewhere.

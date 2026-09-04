@@ -1,6 +1,6 @@
 ---
 name: build-prototype
-description: Turn an approved spec into a clickable prototype published as a shareable artifact, auto-share it with reviewers, and collect structured feedback. Use after a spec is approved at Gate 2, or when an existing prototype needs a new version. Handles both first creation and updates. Solves Problem Statement 6.
+description: Turn an approved spec into a clickable prototype published as a shareable artifact, auto-share it with reviewers, and collect structured feedback. Use once the Head of Product has approved the spec at Gate 3, or when an existing prototype needs a new version. Handles both first creation and updates. Solves Problem Statement 6.
 ---
 
 # Build, share and collect feedback on a prototype
@@ -14,8 +14,12 @@ including on updates.
 
 ## Preconditions
 
-- `state.json` shows the spec **approved** at Gate 2, with the approval recorded
+- `state.json` shows the spec **approved by the Head of Product at Gate 3**,
+  with the approval recorded
 - `02-spec.v<n>.md` exists
+
+A spec the PM has reviewed (Gate 2) but the Head of Product has not yet approved
+is **not** ready to prototype. If Gate 3 is still open, stop and say so.
 
 For an update, `state.json.artifactUrl` already exists — you will republish to
 the same path so the URL stays stable.
@@ -93,7 +97,7 @@ changed since the previous version, and known gaps.
 This step is not optional and does not wait to be asked. Publishing without
 notifying is the manual step this skill exists to remove.
 
-Read reviewers from `context/stakeholders.md` (Gate 3).
+Read reviewers from `context/stakeholders.md` (Gate 4).
 
 If this is the **first send of the session**, confirm with the operator. Then
 send:
@@ -110,7 +114,7 @@ send:
 Update `state.json`: `stage: "AWAITING_PROTOTYPE_FEEDBACK"`, and set the gate
 fields.
 
-### ⛔ GATE 3
+### ⛔ GATE 4
 
 Print the URL, who it went to, and what you're waiting for. Then **stop**.
 
