@@ -1,0 +1,33 @@
+{
+  "slug": "why-recommended",
+  "title": "Candidates can't tell why a job is recommended",
+  "stage": "AWAITING_SCOPE_CONFIRMATION",
+  "specVersion": null,
+  "prototypeVersion": null,
+  "jiraKey": null,
+  "artifactUrl": null,
+  "gate": {
+    "id": 1,
+    "waitingOn": "associate-pm",
+    "since": "2026-09-04T10:40:00Z",
+    "expects": "confirm Option D | choose another option | send back for re-scoping"
+  },
+  "approvals": [],
+  "history": [
+    {
+      "at": "2026-09-04T10:20:00Z",
+      "event": "PROBLEM_CAPTURED",
+      "note": "Raised verbally at product sync. Captured verbatim in 00-problem.md."
+    },
+    {
+      "at": "2026-09-04T10:35:00Z",
+      "event": "SCOPED",
+      "note": "5 options scored. Option E killed by rule (0.9, below 1.0 floor). Option C scored highest (30.0) but was overridden per rubric §7 in favour of Option D (7.5)."
+    },
+    {
+      "at": "2026-09-04T10:40:00Z",
+      "event": "EVIDENCE_GATHERED",
+      "note": "Measured signal distribution across 32 seeded jobs. Resolved open questions 1 and 2, and changed the design: chips rank by information value, not score weight."
+    }
+  ]
+}

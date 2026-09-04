@@ -1,0 +1,18 @@
+$ node analyse-match-signals.mjs
+# Run 2026-09-04 against wellfound-clone-api seed data (npm run db:seed)
+
+Jobs analysed: 32  (persona: demo@wellfound.dev)
+
+How often each signal fires:
+  role       16 / 32  (50%)
+  roleType   29 / 32  (91%)
+  location   17 / 32  (53%)
+  remote     11 / 32  (34%)
+  salary     24 / 32  (75%)
+  freshness  32 / 32  (100%)
+
+Signals per job — average: 4.0
+  distribution (signals: jobs): { '1': 1, '2': 2, '3': 9, '4': 7, '5': 9, '6': 4 }
+
+FRESHNESS-ONLY matches: 1 / 32
+Zero-signal matches:    0 / 32
