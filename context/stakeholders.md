@@ -37,6 +37,48 @@ are notified but do not block.
 
 ---
 
+## How approval actually reaches the agent
+
+**Do not block waiting for an email reply.** The Head of Product responds
+through the Associate PM, and leaves any detailed feedback on the Jira ticket.
+
+Two accepted channels, both real evidence:
+
+| Channel | What it looks like |
+| --- | --- |
+| **PM relays in session** | The PM says "approved by head, go ahead" — record it as *relayed by the Associate PM*, with their words quoted |
+| **Jira ticket comments** | The review channel for actual feedback. Read with `node tools/jira.mjs comments --slug <slug>` |
+
+**When the PM asks you to check comments**, check the **Jira ticket** — not
+email. Then:
+
+- **Comments present** → address them. Fold them into the spec or prototype,
+  reply on the ticket saying what you changed, and continue.
+- **No comments** (`NO_COMMENTS`) → that is a clear answer, not an ambiguous
+  one. **Proceed.**
+
+### What must still be recorded honestly
+
+Relayed approval is valid evidence, but it is not the same as the approver
+writing it themselves. Record what actually happened:
+
+```json
+{
+  "gate": 3,
+  "by": "head-of-product",
+  "via": "relayed by associate-pm",
+  "channel": "in-session",
+  "quote": "approved from head please create the prototype",
+  "emailReplyOnFile": false
+}
+```
+
+Never upgrade a relayed approval to a direct one, and never invent a comment
+that isn't on the ticket. The distinction costs nothing to record and is the
+whole value of the log.
+
+---
+
 ## Sending rules
 
 - **Confirm with the user before the first send of a session.** After that, send

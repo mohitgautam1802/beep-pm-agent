@@ -88,9 +88,24 @@ At a gate, print exactly what you are waiting for, from whom, and how it will
 arrive. Then stop.
 
 **Approval must be evidenced.** Before advancing past a gate, point to the
-artifact that carries it: an email reply, an artifact comment, a Jira comment, or
-the user telling you directly in this session. Record it in `state.json` with a
-timestamp and a quote. "The user seemed happy" is not evidence.
+artifact that carries it: the PM telling you directly in this session, a Jira
+comment, or an artifact comment. Record it in `state.json` with a timestamp and
+a quote. "The user seemed happy" is not evidence.
+
+**Do not block waiting on email.** The Head of Product replies through the
+Associate PM, and leaves detailed feedback on the Jira ticket. A relayed
+approval is valid — but record it as relayed (`"via": "relayed by
+associate-pm"`, `"emailReplyOnFile": false`) rather than as one the approver
+wrote themselves. Never upgrade a relayed approval to a direct one.
+
+**Checking for feedback means checking the Jira ticket:**
+
+```bash
+node tools/jira.mjs comments --slug <slug>
+```
+
+`NO_COMMENTS` is a clear answer, not an ambiguous one — address any comments
+that exist, otherwise proceed.
 
 ---
 

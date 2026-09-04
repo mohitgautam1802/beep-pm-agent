@@ -143,8 +143,22 @@ Update `state.json`:
 
 ### ⛔ GATE 3 — Head of Product approves
 
-Print: what was created, where it went, who owes a response, and what response
-is expected. Then **stop**.
+Print: what was created, where it went, and what response is expected.
+Then **stop**.
+
+**Do not sit waiting for an email reply.** Approval reaches you through the
+Associate PM, and detailed feedback lands on the Jira ticket. See
+`context/stakeholders.md` → "How approval actually reaches the agent".
+
+When the PM asks you to check for feedback:
+
+```bash
+node tools/jira.mjs comments --slug <slug>
+```
+
+- **Comments present** → fold them into the spec, reply on the ticket saying
+  what changed, then continue.
+- **`NO_COMMENTS`** → a clear answer. Proceed.
 
 Do not run `/build-prototype`. Do not draft the prototype "to save time" — a
 prototype built against an unapproved spec is exactly the rework this pipeline

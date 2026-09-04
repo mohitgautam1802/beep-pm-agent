@@ -24,9 +24,12 @@ diff**. Never a silent overwrite.
 Build a concrete change list before touching the spec. Sources, in priority
 order:
 
-1. **Feedback** in `03-feedback.v<n>.md` — verdicts and requested changes
-2. **The prototype itself** — compare `04-prototype.v<n>.md` against `v<n-1>`
-3. **The operator**, if they described a change directly
+1. **Jira ticket comments** — the primary review channel. Read them with
+   `node tools/jira.mjs comments --slug <slug>`. `NO_COMMENTS` means there is
+   nothing to fold in from this source; proceed rather than waiting.
+2. **Feedback** in `03-feedback.v<n>.md` — verdicts and requested changes
+3. **The prototype itself** — compare `04-prototype.v<n>.md` against `v<n-1>`
+4. **The PM**, if they described a change directly
 
 For each change, capture: what changed, why, who asked, and which spec sections
 it touches.

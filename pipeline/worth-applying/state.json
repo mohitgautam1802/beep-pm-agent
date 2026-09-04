@@ -1,0 +1,107 @@
+{
+  "slug": "worth-applying",
+  "title": "Candidates can't tell which openings are worth applying to, so they apply to all of them",
+  "stage": "PROTOTYPING",
+  "specVersion": 1,
+  "prototypeVersion": null,
+  "jiraKey": "KAN-16",
+  "artifactUrl": null,
+  "gate": {
+    "id": 4,
+    "waitingOn": "head-of-product",
+    "since": null,
+    "expects": "prototype feedback: approve | request-changes | reject. Not yet built or shared."
+  },
+  "approvals": [
+    {
+      "gate": 1,
+      "artifact": "01-solutions.md",
+      "by": "associate-pm",
+      "at": "2026-09-04T00:00:00Z",
+      "verdict": "DECIDED",
+      "quote": "2. A fit verdict that is allowed to say no ... lets implement this",
+      "channel": "in-session"
+    },
+    {
+      "gate": 2,
+      "artifact": "02-spec.v1.md",
+      "by": "associate-pm",
+      "at": "2026-09-04T13:14:00Z",
+      "verdict": "APPROVED",
+      "quote": "approve and share the prototype",
+      "channel": "in-session"
+    },
+    {
+      "gate": 3,
+      "artifact": "02-spec.v1.md",
+      "by": "head-of-product",
+      "at": "2026-09-04T13:25:00Z",
+      "verdict": "APPROVED",
+      "quote": "approved from head please create the prototype",
+      "channel": "relayed-in-session-by-associate-pm",
+      "evidenceCaveat": "NOT an email reply. Gmail thread 1a06c92e2d91df28 searched at time of recording and contains only the outbound message; no response from mohitkrishan025@gmail.com exists. Recorded on the Associate PM verbal relay, which CLAUDE.md permits as gate evidence. The quote above is the PM speaking, not the Head of Product. Attach the real reply if it arrives."
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-09-04T00:00:00Z",
+      "event": "PROBLEM_CAPTURED",
+      "note": "Raised first-hand by the operator as a candidate, in session. Captured verbatim in 00-problem.md. Statement is compound (three problems) and rests on one false premise (the product stores resumeFileName only, per wiki S1 and C5)."
+    },
+    {
+      "at": "2026-09-04T00:00:00Z",
+      "event": "EVIDENCE_LIMITED",
+      "note": "Could not run a live query this session: wellfound-clone-api is not checked out under this path (parent holds only beep-pm-agent and README.md). Reused pipeline/why-recommended/evidence/signal-distribution.txt from the 2026-09-04 run. Experience-band fit and skill-overlap distribution remain unmeasured."
+    },
+    {
+      "at": "2026-09-04T00:00:00Z",
+      "event": "PREMISE_CORRECTED",
+      "note": "PM corrected the resume premise: resume content IS readable in the real product; the clone omits it. Wiki S1 and C5 are stale on this point. Recorded as a dated addendum in 00-problem.md rather than an edit, so the earlier reasoning stays auditable. Resume-dependent effort claims are marked unanchored."
+    },
+    {
+      "at": "2026-09-04T00:00:00Z",
+      "event": "SOLUTIONS_PROPOSED",
+      "note": "Four options discussed: prefill filters from profile (cheap), fit verdict with a negative term (~2-3 days), resume-grounded cover-letter draft, resume-to-profile backfill. Do-nothing rejected."
+    },
+    {
+      "at": "2026-09-04T00:00:00Z",
+      "event": "SOLUTION_CHOSEN",
+      "note": "PM chose the fit verdict, quoting the option back verbatim. Solves problem A only; B (cost per application) knowingly unsolved; C (rejection outcomes) ruled unfixable - no recruiter surface exists (wiki S7), so rejection rate cannot be a success metric."
+    },
+    {
+      "at": "2026-09-04T00:00:00Z",
+      "event": "EVIDENCE_GAP_OPEN",
+      "note": "Weights and overlap thresholds in 01-solutions.md are unvalidated guesses. JobSkill density across the 32 seeded jobs is unmeasured and could invalidate the skills half of the verdict. Spec must run this query first; needs a wellfound-clone-api checkout path."
+    },
+    {
+      "at": "2026-09-04T00:00:00Z",
+      "event": "SPEC_DRAFTED",
+      "note": "02-spec.v1.md written from templates/prd-template.md. Every section filled. Not published: no Jira issue, no email. Spec carries 5 open questions plus an explicit unmeasured-evidence note (no wellfound-clone-api checkout available this session)."
+    },
+    {
+      "at": "2026-09-04T13:14:00Z",
+      "event": "GATE_2_APPROVED",
+      "note": "PM approved spec v1 in session, quoted verbatim in approvals."
+    },
+    {
+      "at": "2026-09-04T13:14:58Z",
+      "event": "JIRA_DRY_RUN",
+      "note": "node tools/jira.mjs create ran in DRY-RUN: no .env present, so no credentials. NO Jira issue was created and jiraKey stays null. Payload written to pipeline/worth-applying/jira/2026-09-04T13-14-58-723Z-create.json (74594 bytes). Payload also shows project.key empty - JIRA_PROJECT_KEY is unset, so credentials alone would not be enough."
+    },
+    {
+      "at": "2026-09-04T13:20:00Z",
+      "event": "JIRA_CREATED",
+      "note": "PM supplied Jira credentials. .env written (gitignored). tools/jira.mjs verify returned LIVE, authenticated as mohit01krishan@gmail.com, project KAN. Re-ran create: KAN-16 created for real. https://mohitsworkspace-32935286.atlassian.net/browse/KAN-16 . Supersedes the earlier dry-run payload in pipeline/worth-applying/jira/."
+    },
+    {
+      "at": "2026-09-04T13:19:20Z",
+      "event": "SPEC_SENT_FOR_APPROVAL",
+      "note": "Spec v1 (KAN-16) emailed to head-of-product mohitkrishan025@gmail.com. Subject: [Beep PM] Spec review - Fit verdict on job cards (v1). Gmail message/thread id 1a06c92e2d91df28. First send attempt returned service-unavailable; verified via in:sent search that only one message exists, no duplicate."
+    },
+    {
+      "at": "2026-09-04T13:25:00Z",
+      "event": "GATE_3_APPROVED_BY_RELAY",
+      "note": "Associate PM relayed Head of Product approval in session. Verified first that no email reply exists on thread 1a06c92e2d91df28 - the approval is a relay, not the emailed response the gate asked for. Recorded with that caveat rather than as an email approval. Stage advanced to PROTOTYPING."
+    }
+  ]
+}

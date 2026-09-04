@@ -120,8 +120,17 @@ Print the URL, who it went to, and what you're waiting for. Then **stop**.
 
 ## Step 6 — Collect feedback (when it arrives)
 
-Read responses from the artifact's stored data and its comment threads. Also
-check email replies.
+**The Jira ticket is the primary review channel.** Check it first:
+
+```bash
+node tools/jira.mjs comments --slug <slug>
+```
+
+`NO_COMMENTS` is a clear answer — proceed rather than waiting. If comments are
+present, address them and reply on the ticket saying what changed.
+
+Also read the artifact's stored form responses and comment threads. Do not block
+on email.
 
 Write everything to `03-feedback.v<n>.md`, one entry per reviewer:
 - reviewer, verdict, timestamp

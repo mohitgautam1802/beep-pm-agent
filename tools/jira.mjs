@@ -339,6 +339,97 @@ async function comment(opts) {
 }
 
 /**
+ * Reads the comments on an issue.
+ *
+ * This is the review channel: the Head of Product leaves feedback on the ticket
+ * rather than replying to email. `--since <iso>` filters to comments newer than
+ * a timestamp, so a second run only surfaces what is genuinely new.
+ */
+async function comments(opts) {
+  const key = opts.key ?? (opts.slug ? readState(opts.slug).jiraKey : null);
+  if (!key) throw new Error('Need --key <ISSUE-KEY> or --slug <slug>');
+
+  if (!IS_LIVE) {
+    console.log('[dry-run] No Jira credentials — cannot read comments.');
+    return;
+  }
+
+  const result = await jiraFetch(
+    `/rest/api/3/issue/${key}/comment?orderBy=created&maxResults=100`,
+  );
+
+  const all = result.comments ?? [];
+  const since = opts.since ? new Date(opts.since) : null;
+  const list = since
+    ? all.filter((c) => new Date(c.created) > since)
+    : all;
+
+  if (list.length === 0) {
+    // Said explicitly, because "no comments" is a real answer that should let
+    // the caller proceed - not an ambiguous empty result.
+    console.log(`NO_COMMENTS on ${key}${since ? ` since ${opts.since}` : ''}.`);
+    return;
+  }
+
+  console.log(`${list.length} comment(s) on ${key}:\n`);
+  for (const comment of list) {
+    const who = comment.author?.displayName ?? 'unknown';
+    console.log(`--- ${who} · ${comment.created} · id=${comment.id}`);
+    console.log(adfToText(comment.body).trim());
+    console.log('');
+  }
+}
+
+/** Fetches an issue's summary and status - used to confirm one really exists. */
+async function get(opts) {
+  const key = opts.key ?? (opts.slug ? readState(opts.slug).jiraKey : null);
+  if (!key) throw new Error('Need --key <ISSUE-KEY> or --slug <slug>');
+
+  if (!IS_LIVE) {
+    console.log('[dry-run] No Jira credentials — cannot read issues.');
+    return;
+  }
+
+  try {
+    const issue = await jiraFetch(
+      `/rest/api/3/issue/${key}?fields=summary,status,issuetype,created`,
+    );
+    console.log(`${issue.key}`);
+    console.log(`  summary: ${issue.fields.summary}`);
+    console.log(`  status:  ${issue.fields.status?.name}`);
+    console.log(`  type:    ${issue.fields.issuetype?.name}`);
+    console.log(`  created: ${issue.fields.created}`);
+    console.log(`  url:     ${CONFIG.baseUrl}/browse/${issue.key}`);
+  } catch (error) {
+    console.log(`${key}: DOES NOT EXIST (or no access)`);
+    if (process.env.DEBUG) console.error(error);
+    process.exitCode = 2;
+  }
+}
+
+/** Flattens ADF back to readable text so comments can be printed. */
+function adfToText(node) {
+  if (!node) return '';
+  if (typeof node === 'string') return node;
+  if (node.type === 'text') return node.text ?? '';
+
+  const inner = (node.content ?? []).map(adfToText).join('');
+
+  switch (node.type) {
+    case 'paragraph':
+    case 'heading':
+      return `${inner}\n`;
+    case 'listItem':
+      return `  - ${inner}`;
+    case 'bulletList':
+    case 'orderedList':
+      return `${inner}\n`;
+    default:
+      return inner;
+  }
+}
+
+/**
  * Lists the projects this account can see. Used when setting up, to find the
  * right JIRA_PROJECT_KEY without hunting through the Jira UI.
  */
@@ -432,7 +523,7 @@ function buildDescription(spec, state) {
 // Entry
 // ---------------------------------------------------------------------------
 
-const COMMANDS = { create, update, comment, verify, projects };
+const COMMANDS = { create, update, comment, comments, get, verify, projects };
 
 async function main() {
   const opts = args();
@@ -440,7 +531,14 @@ async function main() {
 
   if (!command || !COMMANDS[command]) {
     console.error(
-      `Usage: node tools/jira.mjs <create|update|comment|verify|projects> [options]`,
+      'Usage: node tools/jira.mjs <command> [options]\n\n' +
+        '  create   --slug <s> --spec <file>   create the issue\n' +
+        '  update   --slug <s> --spec <file>   replace the description\n' +
+        '  comment  --slug <s> --changelog     post a comment\n' +
+        '  comments --slug <s> [--since <iso>] READ comments (review channel)\n' +
+        '  get      --slug <s> | --key <K>     confirm an issue exists\n' +
+        '  verify                              check credentials and project\n' +
+        '  projects                            list visible projects',
     );
     process.exit(1);
   }
