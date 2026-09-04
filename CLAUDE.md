@@ -38,12 +38,11 @@ imagination when the wiki has the answer.
       │                         ⛔ GATE 3 — Head of Product approves the spec
       ▼
   ③ /build-prototype      PS6  → prototype artifact + feedback form, auto-shared
-      │                         ⛔ GATE 4 — reviewers respond
-      ▼
-  ④ /sync-prd             PS7  → spec.vN+1 + CHANGELOG + Jira update
-      │
-      └──────────► loops back to ③ while feedback keeps arriving
+                            ⛔ GATE 4 — reviewers respond
 ```
+
+Feedback collected at Gate 4 is written to `03-feedback.v<n>.md` and handed to
+the PM. Folding it back into the spec is deliberately a human step here.
 
 **Nothing leaves the building before Gate 2.** `/write-spec` drafts the PRD and
 stops. Only once the PM has read it does the Jira issue get created and the
@@ -55,14 +54,7 @@ Spec version numbers only start advancing **after** publication. Every round of
 PM review before Gate 2 is still v1.
 
 Stage ① is a **conversation**, not a single-shot report. Expect several rounds
-of back-and-forth before the PM settles on what to build. Stages ②–④ are
-transactional: one invocation, one artifact, one gate.
-
-`/write-spec` also accepts a solution the PM hands over directly, with no
-brainstorm — sometimes the decision was already made elsewhere.
-
-Stage ① is a **conversation**, not a single-shot report. Expect several rounds
-of back-and-forth before the PM settles on what to build. Stages ②–④ are
+of back-and-forth before the PM settles on what to build. Stages ② and ③ are
 transactional: one invocation, one artifact, one gate.
 
 `/write-spec` also accepts a solution the PM hands over directly, with no
@@ -121,8 +113,6 @@ pipeline/why-recommended/
   02-spec.v1.md       # first PRD
   03-feedback.v1.md   # collected responses
   04-prototype.v1.md  # prototype record: URL, version, what changed
-  02-spec.v2.md       # revised PRD
-  CHANGELOG.md        # append-only; every version, what changed, why
   evidence/           # any queries run against the real product
 ```
 
@@ -149,7 +139,7 @@ pipeline/why-recommended/
 
 Stages: `EXPLORING` → `SOLUTION_CHOSEN` → `SPEC_DRAFT` → `AWAITING_PM_REVIEW` →
 `AWAITING_SPEC_APPROVAL` → `PROTOTYPING` → `AWAITING_PROTOTYPE_FEEDBACK` →
-`SYNCING` → `READY_FOR_BUILD`.
+`FEEDBACK_COLLECTED`.
 
 Update `state.json` at the end of every skill run. If it disagrees with the
 files on disk, the files win — fix the state and note it in `history`.

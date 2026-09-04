@@ -1,20 +1,19 @@
 # Beep PM Agent
 
 **Hiring assignment — Associate Product Manager, Beep**
-Solves **Problem Statements 5, 6 and 7** as one connected pipeline.
+Solves **Problem Statements 5 and 6** as one connected pipeline.
 
 An agent that takes a raw problem, thinks through solutions *with* you, writes
-the PRD, files it in Jira, builds a clickable prototype, auto-shares it for
-review, and keeps the PRD in sync as feedback arrives — stopping at every point
-where a human has to decide.
+the PRD, files it in Jira, builds a clickable prototype, and auto-shares it for
+review with a structured feedback form — stopping at every point where a human
+has to decide.
 
 | PS | Ask | Built as |
 | --- | --- | --- |
 | **5** | Problem space → exact solution | `/brainstorm-solutions` |
 | **6** | Solution → prototype, auto-shared, with feedback | `/build-prototype` |
-| **7** | Changed prototype → updated PRD with a diff | `/sync-prd` |
 
-`/write-spec` sits between 5 and 6 — it turns the decision into a PRD, files the
+`/write-spec` sits between them — it turns the decision into a PRD, files the
 Jira issue, and routes it for approval.
 
 ---
@@ -79,9 +78,6 @@ tool nobody uses.
 > /build-prototype
     → prototype published at a real URL, auto-shared with a feedback form
     ⛔ GATE 4 — reviewers respond
-
-> /sync-prd
-    → spec v2 + changelog + diff, pushed back to Jira
 ```
 
 Stage 1 is a **conversation**, not a report — expect several rounds. The rest
@@ -161,7 +157,6 @@ context/
   brainstorm-solutions/          PS5
   write-spec/                    PRD → Jira → approval request
   build-prototype/               PS6
-  sync-prd/                      PS7
 templates/prd-template.md
 tools/jira.mjs                   Jira Cloud adapter (live + dry-run)
 pipeline/why-recommended/        the worked example, start to finish

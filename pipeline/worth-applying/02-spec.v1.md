@@ -340,4 +340,4 @@ Given a checkout path the script is a short job.
 
 ## Changelog
 
-See `CHANGELOG.md` for the full version history and diffs.
+Earlier versions are kept alongside this file.

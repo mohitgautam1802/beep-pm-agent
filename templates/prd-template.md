@@ -127,10 +127,10 @@ because it answers "why not the obvious cheaper thing?".>
 | 1 | | | |
 
 > An empty Open questions section is almost always a lie. If there are genuinely
-> none, write "None — all resolved in v<n>, see CHANGELOG."
+> none, write "None — all resolved in v<n>."
 
 ---
 
 ## Changelog
 
-See `CHANGELOG.md` for the full version history and diffs.
+Earlier versions are kept alongside this file; each notes what changed and who asked.

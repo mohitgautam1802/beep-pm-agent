@@ -240,4 +240,4 @@ Discussed in `01-solutions.md`.
 
 ## Changelog
 
-See `CHANGELOG.md`.
+Earlier versions are kept alongside this file.

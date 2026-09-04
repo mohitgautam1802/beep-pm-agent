@@ -1,0 +1,474 @@
+<title>Fit Verdict on Job Cards</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+  :root {
+    --ink: #0d0c22;
+    --ink-muted: #6b7280;
+    --ink-subtle: #9ca3af;
+    --surface: #ffffff;
+    --page: #f7f7f8;
+    --hover: #f3f4f6;
+    --line: #e5e7eb;
+    --line-strong: #d1d5db;
+    --brand: #2563eb;
+    --brand-soft: #eff6ff;
+    --accent: #ec4d3d;
+    --strong: #16a34a;
+    --strong-soft: #dcfce7;
+    --stretch: #b45309;
+    --stretch-soft: #fef3c7;
+    --under: #6b7280;
+    --under-soft: #f3f4f6;
+    --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+    --shadow-pop: 0 8px 24px -6px rgb(0 0 0 / 0.12);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #f4f4f5; --ink-muted: #a1a1aa; --ink-subtle: #71717a;
+      --surface: #18181b; --page: #101012; --hover: #27272a;
+      --line: #27272a; --line-strong: #3f3f46;
+      --brand: #60a5fa; --brand-soft: #1e293b;
+      --strong: #4ade80; --strong-soft: #14311f;
+      --stretch: #fbbf24; --stretch-soft: #38260a;
+      --under: #a1a1aa; --under-soft: #27272a;
+      --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+      --shadow-pop: 0 8px 24px -6px rgb(0 0 0 / 0.5);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ink: #f4f4f5; --ink-muted: #a1a1aa; --ink-subtle: #71717a;
+    --surface: #18181b; --page: #101012; --hover: #27272a;
+    --line: #27272a; --line-strong: #3f3f46;
+    --brand: #60a5fa; --brand-soft: #1e293b;
+    --strong: #4ade80; --strong-soft: #14311f;
+    --stretch: #fbbf24; --stretch-soft: #38260a;
+    --under: #a1a1aa; --under-soft: #27272a;
+    --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+    --shadow-pop: 0 8px 24px -6px rgb(0 0 0 / 0.5);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 940px; margin: 0 auto; padding: 24px 20px 64px; }
+
+  /* --- prototype chrome ---------------------------------------------- */
+  .proto-bar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
+    background: var(--brand-soft); border: 1px solid var(--line);
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 20px;
+  }
+  .proto-tag {
+    font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+    background: var(--brand); color: #fff; padding: 3px 7px; border-radius: 5px;
+  }
+  .proto-bar p { margin: 0; font-size: 12.5px; color: var(--ink-muted); flex: 1 1 320px; }
+  .proto-bar strong { color: var(--ink); font-weight: 600; }
+
+  h1 { font-size: 26px; font-weight: 800; letter-spacing: -.02em; margin: 0 0 6px; text-wrap: balance; }
+  .sub { color: var(--ink-muted); margin: 0 0 24px; max-width: 62ch; }
+
+  h2 {
+    font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+    color: var(--ink-subtle); margin: 32px 0 12px;
+  }
+
+  /* --- persona -------------------------------------------------------- */
+  .persona {
+    display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 10px; padding: 14px; box-shadow: var(--shadow);
+  }
+  .persona .who { font-weight: 600; }
+  .persona .meta { font-size: 12.5px; color: var(--ink-muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .chip {
+    font-size: 11px; padding: 2px 8px; border-radius: 999px;
+    background: var(--hover); color: var(--ink-muted);
+  }
+
+  /* --- toggle --------------------------------------------------------- */
+  .toggle { display: inline-flex; background: var(--hover); border-radius: 9px; padding: 3px; gap: 3px; }
+  .toggle button {
+    font: inherit; font-size: 13px; font-weight: 500; cursor: pointer;
+    border: 0; background: transparent; color: var(--ink-muted);
+    padding: 7px 14px; border-radius: 7px; transition: background .15s, color .15s;
+  }
+  .toggle button[aria-pressed="true"] {
+    background: var(--surface); color: var(--ink); box-shadow: var(--shadow); font-weight: 600;
+  }
+  .toggle button:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+  /* --- job cards ------------------------------------------------------ */
+  .jobs { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+  .job {
+    display: flex; gap: 13px;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 10px; padding: 15px; box-shadow: var(--shadow);
+  }
+  .logo {
+    width: 44px; height: 44px; border-radius: 8px; flex: 0 0 auto;
+    background: var(--hover); border: 1px solid var(--line);
+    display: grid; place-items: center; font-weight: 700; font-size: 13px; color: var(--ink-muted);
+  }
+  .job-body { min-width: 0; flex: 1; }
+  .job-title { font-size: 15px; font-weight: 600; color: var(--brand); }
+  .job-co { font-size: 13.5px; margin-top: 1px; }
+  .job-co span { color: var(--ink-muted); }
+  .job-meta {
+    display: flex; flex-wrap: wrap; gap: 4px 8px;
+    font-size: 12px; color: var(--ink-muted); margin-top: 7px;
+  }
+  .pay { background: var(--strong-soft); color: var(--strong); font-weight: 500; }
+
+  /* --- the verdict ---------------------------------------------------- */
+  .verdict { margin-top: 11px; padding-top: 11px; border-top: 1px solid var(--line); }
+  .verdict-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11.5px; font-weight: 700; letter-spacing: .02em;
+    padding: 4px 9px; border-radius: 6px;
+  }
+  .badge.STRONG { background: var(--strong-soft); color: var(--strong); }
+  .badge.STRETCH { background: var(--stretch-soft); color: var(--stretch); }
+  .badge.UNDER_QUALIFIED { background: var(--under-soft); color: var(--under); }
+  .badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .why { font-size: 12.5px; color: var(--ink-muted); }
+  .why b { color: var(--ink); font-weight: 600; }
+
+  /* --- rule table ----------------------------------------------------- */
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 10px; padding: 16px; box-shadow: var(--shadow);
+  }
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 460px; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-subtle); font-weight: 600; }
+  td:first-child { font-weight: 600; }
+  tbody tr:last-child td { border-bottom: 0; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .edge { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .edge div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 13px; }
+  .edge h3 { margin: 0 0 4px; font-size: 13px; font-weight: 600; }
+  .edge p { margin: 0; font-size: 12.5px; color: var(--ink-muted); }
+
+  /* --- feedback ------------------------------------------------------- */
+  label { display: block; font-size: 12px; font-weight: 600; margin: 12px 0 5px; }
+  input[type=text], textarea, select {
+    width: 100%; font: inherit; font-size: 13.5px; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: 8px; padding: 9px 11px;
+  }
+  textarea { min-height: 84px; resize: vertical; }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--brand); outline-offset: -1px; border-color: var(--brand); }
+  .verdict-pick { display: flex; flex-wrap: wrap; gap: 7px; }
+  .verdict-pick button {
+    font: inherit; font-size: 13px; cursor: pointer; padding: 8px 13px;
+    border-radius: 8px; border: 1px solid var(--line-strong);
+    background: var(--surface); color: var(--ink-muted);
+  }
+  .verdict-pick button[aria-pressed="true"] { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); font-weight: 600; }
+  .submit {
+    margin-top: 14px; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
+    background: var(--ink); color: var(--page); border: 0; border-radius: 8px; padding: 10px 18px;
+  }
+  .submit:disabled { opacity: .5; cursor: not-allowed; }
+  .note { font-size: 12px; color: var(--ink-subtle); margin-top: 8px; }
+  .responses { margin-top: 16px; display: flex; flex-direction: column; gap: 9px; }
+  .resp { border: 1px solid var(--line); border-radius: 8px; padding: 11px; background: var(--surface); }
+  .resp-head { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; font-size: 12px; color: var(--ink-subtle); }
+  .resp p { margin: 6px 0 0; font-size: 13px; }
+
+  footer { margin-top: 34px; font-size: 12px; color: var(--ink-subtle); border-top: 1px solid var(--line); padding-top: 14px; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <div class="proto-bar">
+    <span class="proto-tag">Prototype v1</span>
+    <p>
+      Clickable prototype for <strong>KAN-16 · Fit verdict on job cards</strong>,
+      built from spec v1. Sample data — nothing here is a real job or a real
+      candidate, and no code has been written yet.
+    </p>
+  </div>
+
+  <h1>Should I actually apply to this?</h1>
+  <p class="sub">
+    Today every job card looks equally worth applying to, so candidates apply to
+    all of them and hear nothing back. This adds one verdict per job — and,
+    unlike the current ranking, it is allowed to say no.
+  </p>
+
+  <h2>Computed for</h2>
+  <div class="persona">
+    <div class="logo">MG</div>
+    <div>
+      <div class="who">Mohit Gautam — Associate Product Manager</div>
+      <div class="meta">2 years experience · Bengaluru · open to remote</div>
+      <div class="chips">
+        <span class="chip">Product Management</span><span class="chip">SQL</span>
+        <span class="chip">User Research</span><span class="chip">Analytics</span>
+        <span class="chip">Figma</span><span class="chip">A/B Testing</span>
+        <span class="chip">Stakeholder Management</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>The change</h2>
+  <div class="toggle" role="group" aria-label="Compare views">
+    <button id="btn-before" aria-pressed="false">Today</button>
+    <button id="btn-after" aria-pressed="true">With fit verdict</button>
+  </div>
+
+  <div class="jobs" id="jobs"></div>
+
+  <h2>How the verdict is decided</h2>
+  <div class="card scroll">
+    <p style="margin-top:0;font-size:13px;color:var(--ink-muted)">
+      Two signals the product already stores and the ranker currently ignores:
+      <b style="color:var(--ink)">experience band</b> (your years against the job's range) and
+      <b style="color:var(--ink)">skill overlap</b> (how much of what the job asks for you have).
+    </p>
+    <table>
+      <thead>
+        <tr><th>Experience</th><th>Overlap ≥ 50%</th><th>25–49%</th><th>Under 25%</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>In band</td><td>Strong match</td><td>Worth a stretch</td><td>Likely under-qualified</td></tr>
+        <tr><td>Within 1 yr</td><td>Worth a stretch</td><td>Worth a stretch</td><td>Likely under-qualified</td></tr>
+        <tr><td>2+ yrs below</td><td>Likely under-qualified</td><td>Likely under-qualified</td><td>Likely under-qualified</td></tr>
+      </tbody>
+    </table>
+    <p class="note">
+      This is the first <b>negative</b> term in the ranking. Every existing signal
+      only ever adds points, which is precisely why the list cannot currently say
+      no — measured across the seed data, <b>0 of 32 jobs</b> score zero.
+    </p>
+  </div>
+
+  <h2>Edge cases the prototype assumes</h2>
+  <div class="edge">
+    <div>
+      <h3>No skills on profile</h3>
+      <p>Overlap is undefined, not zero. Show no verdict at all rather than a
+      wrong one, and prompt the candidate to add skills.</p>
+    </div>
+    <div>
+      <h3>Over-qualified</h3>
+      <p>Treated as in-band for v1. Flagged as an open question — it may deserve
+      its own verdict rather than being quietly folded in.</p>
+    </div>
+    <div>
+      <h3>Job lists no skills</h3>
+      <p>Fall back to the experience band alone, and say so, so the verdict is
+      never more confident than its inputs.</p>
+    </div>
+  </div>
+
+  <h2>Feedback</h2>
+  <div class="card">
+    <p style="margin-top:0;font-size:13px;color:var(--ink-muted)">
+      The one thing worth arguing about: <b style="color:var(--ink)">is a
+      negative verdict the right call?</b> It will tell candidates not to apply to
+      jobs they might have got.
+    </p>
+
+    <label id="verdict-label">Your verdict</label>
+    <div class="verdict-pick" role="group" aria-labelledby="verdict-label" id="pick">
+      <button data-v="approve" aria-pressed="false">Approve</button>
+      <button data-v="changes" aria-pressed="false">Request changes</button>
+      <button data-v="reject" aria-pressed="false">Reject</button>
+    </div>
+
+    <label for="area">Which part</label>
+    <select id="area">
+      <option value="verdict-rule">The verdict rule</option>
+      <option value="negative-term">Allowing a negative verdict</option>
+      <option value="wording">Wording on the cards</option>
+      <option value="placement">Placement on the card</option>
+      <option value="edge-cases">Edge cases</option>
+      <option value="other">Something else</option>
+    </select>
+
+    <label for="comment">Comments</label>
+    <textarea id="comment" placeholder="What would you change, and why?"></textarea>
+
+    <label for="who">Your name</label>
+    <input id="who" type="text" placeholder="e.g. Head of Product">
+
+    <button class="submit" id="send">Send feedback</button>
+    <p class="note" id="status">Responses are saved with the prototype and read back by the PM agent.</p>
+
+    <div class="responses" id="responses"></div>
+  </div>
+
+  <footer>
+    Prototype v1 · spec v1 · KAN-16 · generated by the Beep PM agent.
+    Fictional data throughout.
+  </footer>
+</div>
+
+<script>
+  // Verdicts are precomputed from the spec's rule against the seeded jobs, so
+  // the page shows the real distribution rather than a hand-picked happy path.
+  const JOBS = [
+    { co: "Sable Analytics", initials: "SA", title: "Associate Product Manager",
+      tagline: "Product analytics without the warehouse bill",
+      loc: "Bengaluru · Remote", pay: "₹16L – ₹24L", exp: "0–2 yrs",
+      verdict: "STRONG", band: "in band", overlap: "3 of 4",
+      why: "Your experience is <b>in band</b> and you have <b>3 of 4</b> skills they ask for." },
+    { co: "Lumen Health", initials: "LH", title: "Associate Product Manager",
+      tagline: "Preventive care for the next billion",
+      loc: "Bengaluru", pay: "₹18L – ₹26L", exp: "1–3 yrs",
+      verdict: "STRONG", band: "in band", overlap: "4 of 4",
+      why: "Your experience is <b>in band</b> and you have <b>all 4</b> skills they ask for." },
+    { co: "Nimbus Learning", initials: "NL", title: "Product Manager, Learner Experience",
+      tagline: "Upskilling for working engineers",
+      loc: "Pune", pay: "₹26L – ₹38L", exp: "3–6 yrs",
+      verdict: "STRETCH", band: "1 yr below", overlap: "3 of 3",
+      why: "You are <b>1 year below</b> the range, but have <b>all 3</b> skills — worth the stretch." },
+    { co: "Peak Foods", initials: "PF", title: "Product Manager, Kitchen Ops",
+      tagline: "Cloud kitchens with honest margins",
+      loc: "Delhi · Gurgaon", pay: "₹28L – ₹40L", exp: "3–6 yrs",
+      verdict: "STRETCH", band: "1 yr below", overlap: "2 of 3",
+      why: "You are <b>1 year below</b> the range, with <b>2 of 3</b> skills." },
+    { co: "Kite Payments", initials: "KP", title: "Product Manager, Payments",
+      tagline: "Payment rails for Indian SMBs",
+      loc: "Bengaluru", pay: "₹32L – ₹48L", exp: "4–8 yrs",
+      verdict: "UNDER_QUALIFIED", band: "2 yrs below", overlap: "2 of 4",
+      why: "You are <b>2 years below</b> the range and missing Payments and API Design." },
+    { co: "Orchard Retail", initials: "OR", title: "Senior Product Manager, Fulfilment",
+      tagline: "Operating system for D2C brands",
+      loc: "Mumbai", pay: "₹40L – ₹55L", exp: "6–10 yrs",
+      verdict: "UNDER_QUALIFIED", band: "4 yrs below", overlap: "2 of 4",
+      why: "You are <b>4 years below</b> the range — the gap is the blocker, not the skills." },
+  ];
+
+  const LABEL = {
+    STRONG: "Strong match",
+    STRETCH: "Worth a stretch",
+    UNDER_QUALIFIED: "Likely under-qualified",
+  };
+
+  let showVerdict = true;
+
+  function render() {
+    document.getElementById("jobs").innerHTML = JOBS.map((j) => `
+      <article class="job">
+        <div class="logo">${j.initials}</div>
+        <div class="job-body">
+          <div class="job-title">${j.title}</div>
+          <div class="job-co">${j.co} <span>· ${j.tagline}</span></div>
+          <div class="job-meta">
+            <span>${j.loc}</span><span>·</span><span>${j.exp}</span>
+            <span class="chip pay">${j.pay}</span>
+          </div>
+          ${showVerdict ? `
+            <div class="verdict">
+              <div class="verdict-row">
+                <span class="badge ${j.verdict}">${LABEL[j.verdict]}</span>
+                <span class="why">${j.why}</span>
+              </div>
+            </div>` : ``}
+        </div>
+      </article>
+    `).join("");
+
+    document.getElementById("btn-before").setAttribute("aria-pressed", String(!showVerdict));
+    document.getElementById("btn-after").setAttribute("aria-pressed", String(showVerdict));
+  }
+
+  document.getElementById("btn-before").onclick = () => { showVerdict = false; render(); };
+  document.getElementById("btn-after").onclick = () => { showVerdict = true; render(); };
+  render();
+
+  // --- feedback ------------------------------------------------------------
+  let picked = null;
+  const pick = document.getElementById("pick");
+  const statusEl = document.getElementById("status");
+  const sendBtn = document.getElementById("send");
+
+  pick.querySelectorAll("button").forEach((b) => {
+    b.onclick = () => {
+      picked = b.dataset.v;
+      pick.querySelectorAll("button").forEach((o) =>
+        o.setAttribute("aria-pressed", String(o === b)));
+    };
+  });
+
+  let db = null;
+  const COLLECTION = "feedback";
+
+  function renderResponses(rows) {
+    const el = document.getElementById("responses");
+    if (!rows.length) { el.innerHTML = ""; return; }
+    el.innerHTML = rows.map((r) => `
+      <div class="resp">
+        <div class="resp-head">
+          <span class="badge ${r.verdict === 'approve' ? 'STRONG'
+            : r.verdict === 'changes' ? 'STRETCH' : 'UNDER_QUALIFIED'}">${
+            r.verdict === 'approve' ? 'Approved'
+              : r.verdict === 'changes' ? 'Changes requested' : 'Rejected'}</span>
+          <span>${r.who || "Anonymous"}</span>
+          <span>· ${r.area}</span>
+        </div>
+        ${r.comment ? `<p>${r.comment.replace(/[<>]/g, "")}</p>` : ""}
+      </div>`).join("");
+  }
+
+  (async () => {
+    if (!window.claude?.use) return;
+    db = await window.claude.use("db");
+    if (!db) return;
+    try {
+      db.collection(COLLECTION).onSnapshot((snap) => {
+        renderResponses(snap.docs ? snap.docs.map((d) => d.data()) : []);
+      });
+    } catch (_) { /* listing unavailable; submitting still works */ }
+  })();
+
+  sendBtn.onclick = async () => {
+    if (!picked) { statusEl.textContent = "Pick a verdict first."; return; }
+
+    const entry = {
+      verdict: picked,
+      area: document.getElementById("area").value,
+      comment: document.getElementById("comment").value.trim(),
+      who: document.getElementById("who").value.trim(),
+      at: new Date().toISOString(),
+    };
+
+    sendBtn.disabled = true;
+    statusEl.textContent = "Saving…";
+
+    try {
+      if (!db && window.claude?.use) db = await window.claude.use("db");
+      if (!db) throw new Error("unavailable");
+      await db.doc(`${COLLECTION}/f_${Date.now()}`).set(entry);
+      statusEl.textContent = "Saved. The PM agent will read this and update the spec.";
+      document.getElementById("comment").value = "";
+    } catch (_) {
+      // Never claim a save that did not happen.
+      statusEl.textContent =
+        "Could not save here — please paste your feedback as a comment on KAN-16 instead.";
+    } finally {
+      sendBtn.disabled = false;
+    }
+  };
+</script>

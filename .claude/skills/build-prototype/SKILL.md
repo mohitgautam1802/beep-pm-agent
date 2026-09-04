@@ -143,8 +143,8 @@ Then summarise: how many approved, what must change, what is deferred, and
 whether anything contradicts something else. **Contradictory feedback is a
 decision for a human, not something for you to resolve silently.** Surface it.
 
-Update `state.json` and tell the operator to run `/sync-prd` to fold the
-feedback into the spec.
+Update `state.json` to `FEEDBACK_COLLECTED` and hand the summary to the PM.
+Applying it to the spec is their call, not yours.
 
 ---
 

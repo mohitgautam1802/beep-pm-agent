@@ -172,9 +172,9 @@ exists to prevent.
 quote. Set `stage: "PROTOTYPING"`. Tell the PM they can run `/build-prototype`.
 
 **CHANGES** → write the notes to `03-feedback.v<n>.md`, produce
-`02-spec.v<n+1>.md` applying them, append to `CHANGELOG.md`, update the Jira
-description, and send again. The gate stays open. This *does* advance the
-version, because v1 is already published.
+`02-spec.v<n+1>.md` applying them, update the Jira description, and send again.
+The gate stays open. This *does* advance the version, because v1 is already
+published — note in the new version what changed and who asked.
 
 **REJECT** → record it, set `stage: "EXPLORING"`, and say plainly that this goes
 back to `/brainstorm-solutions`. A rejection is about the solution, not the
