@@ -8,13 +8,29 @@ description: Turn a confirmed scoping decision into a full PRD, create the Jira 
 Turns a confirmed solution into a PRD, files it in Jira, and requests sign-off.
 Then stops.
 
-## Preconditions
+## Input
 
-- `pipeline/<slug>/01-scoping.md` exists
-- `state.json` shows Gate 1 **confirmed** — the operator explicitly chose an option
+The PM gives you **the solution they have decided to build**. It arrives one of
+two ways, and both are equally valid:
 
-If Gate 1 is not confirmed, stop. Say which gate is open and what you need. Do
-not write a spec against an unconfirmed decision.
+1. **From a brainstorm** — `pipeline/<slug>/01-solutions.md` exists, with the
+   decision captured at the end of `/brainstorm-solutions`.
+2. **Directly from the PM** — they describe or paste the approved solution in
+   the conversation. No brainstorm needed; sometimes the decision was already
+   made elsewhere.
+
+In case 2, create `pipeline/<slug>/` and write their description to
+`01-solutions.md` under a "Decision" heading first, so the spec still has a
+recorded source. Capture their words, not your paraphrase.
+
+**Do not re-litigate the decision.** The PM has chosen. If you think the
+solution is unclear or has a gap, ask a specific question before writing —
+but do not quietly substitute a different solution, and do not re-open options
+that were already ruled out.
+
+If the solution is too vague to spec — "improve recommendations" — say so and
+ask what specifically is being built. A spec written on a vague input just moves
+the ambiguity downstream.
 
 ---
 
@@ -26,11 +42,13 @@ scanning for "Edge cases" needs to find it, even empty.
 
 Save as `02-spec.v<n>.md` (v1 first time).
 
-Carry forward from scoping rather than re-deriving:
+Carry forward from `01-solutions.md` rather than re-deriving:
 - the problem statement and evidence
 - the chosen solution and its scope boundaries
-- the rejected alternatives — reviewers ask "why not X?" and the answer should
-  already be in the document
+- the alternatives considered — reviewers ask "why not X?" and the answer should
+  already be in the document. If the decision came straight from the PM with no
+  alternatives discussed, write "Not formally compared — decision made by the
+  PM" rather than inventing a comparison that never happened.
 
 Add what scoping didn't cover:
 - **User flows** — step by step, including the unhappy paths
@@ -111,8 +129,9 @@ quote. Set `stage: "PROTOTYPING"`. Tell the operator they can run
 applying them, append to `CHANGELOG.md`, update the Jira description, and send
 again. The gate stays open.
 
-**REJECT** → record it, set `stage: "SCOPING"`, and say plainly that this goes
-back to `/scope-problem`. Do not try to rescue a rejected spec by editing it.
+**REJECT** → record it, set `stage: "EXPLORING"`, and say plainly that this goes
+back to `/brainstorm-solutions`. Do not try to rescue a rejected spec by editing
+it — a rejection is about the solution, not the wording.
 
 Never record an approval you did not actually receive. If asked to "just assume
 it's approved", say no and explain that the approval log is the audit trail —

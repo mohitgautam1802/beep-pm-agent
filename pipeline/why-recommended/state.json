@@ -1,18 +1,28 @@
 {
   "slug": "why-recommended",
   "title": "Candidates can't tell why a job is recommended",
-  "stage": "AWAITING_SCOPE_CONFIRMATION",
-  "specVersion": null,
+  "stage": "SPEC_DRAFT",
+  "specVersion": 1,
   "prototypeVersion": null,
-  "jiraKey": null,
+  "jiraKey": "KAN-15",
   "artifactUrl": null,
   "gate": {
-    "id": 1,
-    "waitingOn": "associate-pm",
-    "since": "2026-09-04T10:40:00Z",
-    "expects": "confirm Option D | choose another option | send back for re-scoping"
+    "id": 2,
+    "waitingOn": "head-of-product",
+    "since": null,
+    "expects": "APPROVE | CHANGES (with notes) | REJECT (with reason), by email reply"
   },
-  "approvals": [],
+  "approvals": [
+    {
+      "gate": 1,
+      "artifact": "01-solutions.md",
+      "by": "associate-pm",
+      "at": "2026-09-04T11:05:00Z",
+      "verdict": "DECIDED",
+      "quote": "Build the match-reason chips, with the information-value ranking",
+      "channel": "in-session"
+    }
+  ],
   "history": [
     {
       "at": "2026-09-04T10:20:00Z",
@@ -21,13 +31,23 @@
     },
     {
       "at": "2026-09-04T10:35:00Z",
-      "event": "SCOPED",
-      "note": "5 options scored. Option E killed by rule (0.9, below 1.0 floor). Option C scored highest (30.0) but was overridden per rubric §7 in favour of Option D (7.5)."
+      "event": "SOLUTIONS_PROPOSED",
+      "note": "Three options discussed: rename+tooltip, match-reason chips, full explainability surface with weight tuning."
     },
     {
       "at": "2026-09-04T10:40:00Z",
       "event": "EVIDENCE_GATHERED",
-      "note": "Measured signal distribution across 32 seeded jobs. Resolved open questions 1 and 2, and changed the design: chips rank by information value, not score weight."
+      "note": "Brainstorm raised the freshness-only objection. Measured signal distribution across 32 seeded jobs: freshness fires on 100% of jobs, roleType on 91%. Objection was mostly wrong, but it exposed a real flaw and changed the design to rank chips by information value rather than score weight."
+    },
+    {
+      "at": "2026-09-04T11:05:00Z",
+      "event": "SOLUTION_CHOSEN",
+      "note": "PM chose match-reason chips including the discriminating/ambient split."
+    },
+    {
+      "at": "2026-09-04T11:20:00Z",
+      "event": "SPEC_WRITTEN",
+      "note": "Spec v1 written and pushed to Jira as KAN-15 (182 content blocks, structure verified)."
     }
   ]
 }

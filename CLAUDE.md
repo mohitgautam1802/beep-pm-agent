@@ -16,8 +16,8 @@ imagination when the wiki has the answer.
 
 | File | Use it for |
 | --- | --- |
-| `context/product-wiki.md` | What exists, the domain model, and the change-cost signals (C1–C7) that justify effort scores |
-| `context/prioritisation-rubric.md` | The scoring anchors, formula and tie-break ladder |
+| `context/product-wiki.md` | What exists, the domain model, and the change-cost signals (C1–C7) that anchor every effort claim |
+| `context/solution-heuristics.md` | What separates a real solution from a plausible-sounding one |
 | `context/stakeholders.md` | Who reviews what, who approves, where things get sent |
 
 ---
@@ -28,8 +28,8 @@ imagination when the wiki has the answer.
   raw problem
       │
       ▼
-  ① /scope-problem        PS5  → 01-scoping.md
-      │                         ⛔ GATE 1 — human confirms the chosen option
+  ① /brainstorm-solutions PS5  → 2-3 options, discussed, then 01-solutions.md
+      │                         ⛔ GATE 1 — the PM decides what to build
       ▼
   ② /write-spec                → 02-spec.v1.md, Jira issue, review email
       │                         ⛔ GATE 2 — Head of Product approves the spec
@@ -41,6 +41,13 @@ imagination when the wiki has the answer.
       │
       └──────────► loops back to ③ while feedback keeps arriving
 ```
+
+Stage ① is a **conversation**, not a single-shot report. Expect several rounds
+of back-and-forth before the PM settles on what to build. Stages ②–④ are
+transactional: one invocation, one artifact, one gate.
+
+`/write-spec` also accepts a solution the PM hands over directly, with no
+brainstorm — sometimes the decision was already made elsewhere.
 
 Each stage lives in `.claude/skills/<name>/SKILL.md`. Invoke with the `Skill`
 tool. Read the skill in full and follow it top to bottom — the steps encode the
@@ -76,12 +83,13 @@ Every idea gets a directory: `pipeline/<idea-slug>/`
 pipeline/why-recommended/
   state.json          # current stage, gate status, Jira key, artifact URL
   00-problem.md       # the raw input, verbatim
-  01-scoping.md       # options, scores, decision, rejected alternatives
+  01-solutions.md     # options discussed, the decision, what changed and why
   02-spec.v1.md       # first PRD
   03-feedback.v1.md   # collected responses
   04-prototype.v1.md  # prototype record: URL, version, what changed
-  05-spec.v2.md       # revised PRD
+  02-spec.v2.md       # revised PRD
   CHANGELOG.md        # append-only; every version, what changed, why
+  evidence/           # any queries run against the real product
 ```
 
 `state.json` is the single source of truth for where something is:
@@ -105,7 +113,7 @@ pipeline/why-recommended/
 }
 ```
 
-Stages: `SCOPING` → `AWAITING_SCOPE_CONFIRMATION` → `SPEC_DRAFT` →
+Stages: `EXPLORING` → `SOLUTION_CHOSEN` → `SPEC_DRAFT` →
 `AWAITING_SPEC_APPROVAL` → `PROTOTYPING` → `AWAITING_PROTOTYPE_FEEDBACK` →
 `SYNCING` → `READY_FOR_BUILD`.
 

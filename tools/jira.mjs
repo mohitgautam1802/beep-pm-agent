@@ -338,6 +338,32 @@ async function comment(opts) {
   console.log(`Commented on ${state.jiraKey}`);
 }
 
+/**
+ * Lists the projects this account can see. Used when setting up, to find the
+ * right JIRA_PROJECT_KEY without hunting through the Jira UI.
+ */
+async function projects() {
+  if (!CONFIG.baseUrl || !CONFIG.email || !CONFIG.token) {
+    throw new Error('Need JIRA_BASE_URL, JIRA_EMAIL and JIRA_API_TOKEN in .env');
+  }
+
+  const me = await jiraFetch('/rest/api/3/myself');
+  console.log(`Authenticated as: ${me.displayName} <${me.emailAddress}>\n`);
+
+  const result = await jiraFetch('/rest/api/3/project/search?maxResults=50');
+
+  if (!result.values?.length) {
+    console.log('No projects found. Create one in Jira first, then re-run.');
+    return;
+  }
+
+  console.log(`Projects (${result.values.length}):`);
+  for (const project of result.values) {
+    console.log(`  ${project.key.padEnd(10)} ${project.name}  [${project.style ?? '?'}]`);
+  }
+  console.log(`\nSet JIRA_PROJECT_KEY in .env to one of the keys above.`);
+}
+
 /** Confirms credentials work before the agent relies on them mid-pipeline. */
 async function verify() {
   if (!IS_LIVE) {
@@ -406,7 +432,7 @@ function buildDescription(spec, state) {
 // Entry
 // ---------------------------------------------------------------------------
 
-const COMMANDS = { create, update, comment, verify };
+const COMMANDS = { create, update, comment, verify, projects };
 
 async function main() {
   const opts = args();
@@ -414,7 +440,7 @@ async function main() {
 
   if (!command || !COMMANDS[command]) {
     console.error(
-      `Usage: node tools/jira.mjs <create|update|comment|verify> [options]`,
+      `Usage: node tools/jira.mjs <create|update|comment|verify|projects> [options]`,
     );
     process.exit(1);
   }
